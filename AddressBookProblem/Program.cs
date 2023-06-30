@@ -4,11 +4,11 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to AddressBook Program");
-            
-                    AddressBook addressBook = new AddressBook();
-                    addressBook = Contact.AddContact();
-            
+            Console.WriteLine("...Welcome to Address Book...");
+            AddressBook addressBook = new AddressBook();
+            addressBook.CreateContact();
+            Console.ReadLine();
+
         }
     }
 }
