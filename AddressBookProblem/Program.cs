@@ -9,7 +9,7 @@
             bool flag = true;
             while (flag)
             {
-                Console.WriteLine("1.Create Contact \n2.Add Contact \n3.Display Contact \n4.Edit Contact \n5.Delete Contact \n5.Exit");
+                Console.WriteLine("1.Create Contact \n2.Add Contact \n3.Display Contact \n4.Add Multiple Person\n5.Edit Contact \n6.Delete Contact \n7.Add Multiple Person \n7.Exit");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -22,14 +22,18 @@
                     case 3:
                         addressBook.DisplayContact();
                         break;
+
                     case 4:
+                        addressBook.AddMultipleContact();
+                        break;
+                    case 5:
                        
                        addressBook.EditContact();
                         break;
-                    case 5:
+                    case 6:
                         addressBook.DeleteContact();
                         break;
-                    case 6 :
+                    case 7 :
                         flag = false;
                         break;
                     default:
