@@ -1,129 +1,112 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AddressBookProblem
 {
-
-
-    internal class AddressBook
+    class AddressBook : IContacts
     {
-        Dictionary<string, Contact> addressBook = new Dictionary<string, Contact>();
-        Dictionary<string, AddressBook> addressBookDictionary = new Dictionary<string, AddressBook>();
-        Dictionary<Contact, string> cityDictionary = new Dictionary<Contact, string>();
-        Dictionary<Contact, string> stateDictionary = new Dictionary<Contact, string>();
-        public void AddContact(string firstName, string lastName, string address, string city, string state, string email, long phoneNumber, long pincode, string bookName)
+        internal Dictionary<string, Contact> addressBook = new Dictionary<string, Contact>();
+        internal Dictionary<string, AddressBook> addressBookDictionary = new Dictionary<string, AddressBook>();
+        private Dictionary<Contact, string> cityDictionary = new Dictionary<Contact, string>();
+        private Dictionary<Contact, string> stateDictionary = new Dictionary<Contact, string>();
+        public void AddContact(string firstName, string lastName, string address, string city, string state, string email, int zip, long phoneNumber, string bookName)
         {
-            Contact contact = new Contact();
-            contact.SaveContact(firstName, lastName, address, city, state, email, phoneNumber, pincode);
-            addressBookDictionary[bookName].addressBook.Add(contact.firstName, contact);
+            Contact contact = new Contact(firstName, lastName, address, city, state, email, zip, phoneNumber);
+            addressBookDictionary[bookName].addressBook.Add(contact.FirstName + " " + contact.LastName, contact);
             Console.WriteLine("\nAdded Succesfully. \n");
         }
-
-        public void DisplayAllContact()
+        public void ViewContact(string name, string bookName)
         {
-            foreach (KeyValuePair<string, Contact> item in addressBook)
-            {
-                Console.WriteLine("First Name: " + item.Value.firstName);
-                Console.WriteLine("Last Name: " + item.Value.lastName);
-                Console.WriteLine("Address: " + item.Value.address);
-                Console.WriteLine("City : " + item.Value.city);
-                Console.WriteLine("State : " + item.Value.state);
-                Console.WriteLine("Email Id: " + item.Value.emailId);
-                Console.WriteLine("Phone Number: " + item.Value.phoneNumber);
-                Console.WriteLine("Pin Code: " + item.Value.pinCode + "\n\n");
-            }
-        }
-        public void DisplayAContact()
-        {
-            Console.Write("Enter first Name of contact person :");
-            string name = Console.ReadLine();
-            foreach (KeyValuePair<string, Contact> item in addressBook)
+            foreach (KeyValuePair<string, Contact> item in addressBookDictionary[bookName].addressBook)
             {
                 if (item.Key.Equals(name))
                 {
-                    Console.WriteLine("First Name: " + item.Value.firstName);
-                    Console.WriteLine("Last Name: " + item.Value.lastName);
-                    Console.WriteLine("Address: " + item.Value.address);
-                    Console.WriteLine("City : " + item.Value.city);
-                    Console.WriteLine("State : " + item.Value.state);
-                    Console.WriteLine("Email Id: " + item.Value.emailId);
-                    Console.WriteLine("Phone Number: " + item.Value.phoneNumber);
-                    Console.WriteLine("Pin Code: " + item.Value.pinCode + "\n\n");
+                    Console.WriteLine("First Name : " + item.Value.FirstName);
+                    Console.WriteLine("Last Name : " + item.Value.LastName);
+                    Console.WriteLine("Address : " + item.Value.Address);
+                    Console.WriteLine("City : " + item.Value.City);
+                    Console.WriteLine("State : " + item.Value.State);
+                    Console.WriteLine("Email : " + item.Value.Email);
+                    Console.WriteLine("Zip : " + item.Value.Zip);
+                    Console.WriteLine("Phone Number : " + item.Value.PhoneNumber + "\n");
                 }
             }
         }
-        public void EditContact()
+        public void ViewContact(string bookName)
         {
-            Console.WriteLine("Enter first name of contact to edit ");
-            string firstName = Console.ReadLine();
-            foreach (KeyValuePair<string, Contact> item in addressBook)
+            foreach (KeyValuePair<string, Contact> item in addressBookDictionary[bookName].addressBook)
             {
-                if (firstName == item.Key)
+                Console.WriteLine("First Name : " + item.Value.FirstName);
+                Console.WriteLine("Last Name : " + item.Value.LastName);
+                Console.WriteLine("Address : " + item.Value.Address);
+                Console.WriteLine("City : " + item.Value.City);
+                Console.WriteLine("State : " + item.Value.State);
+                Console.WriteLine("Email : " + item.Value.Email);
+                Console.WriteLine("Zip : " + item.Value.Zip);
+                Console.WriteLine("Phone Number : " + item.Value.PhoneNumber + "\n");
+            }
+        }
+        public void EditContact(string name, string bookName)
+        {
+            foreach (KeyValuePair<string, Contact> item in addressBookDictionary[bookName].addressBook)
+            {
+                if (item.Key.Equals(name))
                 {
-                    Console.WriteLine("Enter what to edit:");
-                    Console.WriteLine("1. First Name \n2. Last Name \n3. Address \n4. City \n5. State \n6. Email ID \n7. Phone Number \n8. Pin Code");
-                    int option = Convert.ToInt32(Console.ReadLine());
-                    switch (option)
+                    Console.WriteLine("Choose What to Edit \n1.First Name \n2.Last Name \n3.Address \n4.City \n5.State \n6.Email \n7.Zip \n8.Phone Number");
+                    int choice = Convert.ToInt32(Console.ReadLine());
+                    switch (choice)
                     {
                         case 1:
-                            Console.WriteLine("Enter First Name: ");
-                            item.Value.firstName = Console.ReadLine();
+                            Console.WriteLine("Enter New First Name :");
+                            item.Value.FirstName = Console.ReadLine();
                             break;
                         case 2:
-                            Console.WriteLine("Enter Last Name: ");
-                            item.Value.lastName = Console.ReadLine();
+                            Console.WriteLine("Enter New Last Name :");
+                            item.Value.LastName = Console.ReadLine();
                             break;
                         case 3:
-                            Console.WriteLine("Enter Address: ");
-                            item.Value.address = Console.ReadLine();
+                            Console.WriteLine("Enter New Address :");
+                            item.Value.Address = Console.ReadLine();
                             break;
                         case 4:
-                            Console.WriteLine("Enter City: ");
-                            item.Value.city = Console.ReadLine();
+                            Console.WriteLine("Enter New City :");
+                            item.Value.City = Console.ReadLine();
                             break;
                         case 5:
-                            Console.WriteLine("Enter State: ");
-                            item.Value.state = Console.ReadLine();
+                            Console.WriteLine("Enter New State :");
+                            item.Value.State = Console.ReadLine();
                             break;
                         case 6:
-                            Console.WriteLine("Enter Email ID: ");
-                            item.Value.emailId = Console.ReadLine();
+                            Console.WriteLine("Enter New Email :");
+                            item.Value.Email = Console.ReadLine();
                             break;
                         case 7:
-                            Console.WriteLine("Enter Phone Number: ");
-                            item.Value.phoneNumber = Convert.ToInt64(Console.ReadLine());
+                            Console.WriteLine("Enter New Zip :");
+                            item.Value.Zip = Convert.ToInt32(Console.ReadLine());
                             break;
                         case 8:
-                            Console.WriteLine("Enter Pin Code: ");
-                            item.Value.pinCode = Convert.ToInt64(Console.ReadLine());
-                            break;
-                        default:
-                            Console.WriteLine("Your enter wrong chice!");
+                            Console.WriteLine("Enter New Phone Number :");
+                            item.Value.PhoneNumber = Convert.ToInt64(Console.ReadLine());
                             break;
                     }
-                    Console.WriteLine("Sucessfully Edited\n\n");
-                }
-                else
-                {
-                    Console.WriteLine("Contact not of " + firstName + " is not found");
+                    Console.WriteLine("\nEdited Successfully.\n");
                 }
             }
         }
-        public void DeleteContact()
+        public void DeleteContact(string name, string bookName)
         {
-            Console.WriteLine("Enter the person's first Name to be delete");
-            string nameToDelete = Console.ReadLine();
-            if (addressBook.ContainsKey(nameToDelete))
+            if (addressBookDictionary[bookName].addressBook.ContainsKey(name))
             {
-                addressBook.Remove(nameToDelete);
-                Console.WriteLine("Deletion Completed\n\n");
+                addressBookDictionary[bookName].addressBook.Remove(name);
+                Console.WriteLine("\nDeleted Succesfully.\n");
             }
             else
             {
-                Console.WriteLine("Contact with name " + nameToDelete + " is not found!\n\n");
+                Console.WriteLine("\nNot Found, Try Again.\n");
             }
         }
         public void AddAddressBook(string bookName)
@@ -145,7 +128,6 @@ namespace AddressBookProblem
             }
             return book;
         }
-
         public List<Contact> GetListOfDictctionaryKeys(Dictionary<Contact, string> d)
         {
             List<Contact> book = new List<Contact>();
@@ -171,7 +153,7 @@ namespace AddressBookProblem
             {
                 CreateCityDictionary();
                 List<Contact> contactList = GetListOfDictctionaryKeys(addressbookobj.cityDictionary);
-                foreach (Contact contact in contactList.FindAll(c => c.city.Equals(city)).ToList())
+                foreach (Contact contact in contactList.FindAll(c => c.City.Equals(city)).ToList())
                 {
                     Console.WriteLine(contact.ToString());
                 }
@@ -183,7 +165,7 @@ namespace AddressBookProblem
             {
                 CreateStateDictionary();
                 List<Contact> contactList = GetListOfDictctionaryKeys(addressbookobj.stateDictionary);
-                foreach (Contact contact in contactList.FindAll(c => c.state.Equals(state)).ToList())
+                foreach (Contact contact in contactList.FindAll(c => c.State.Equals(state)).ToList())
                 {
                     Console.WriteLine(contact.ToString());
                 }
@@ -195,7 +177,7 @@ namespace AddressBookProblem
             {
                 foreach (Contact contact in addressBookObj.addressBook.Values)
                 {
-                    addressBookObj.cityDictionary.Add(contact, contact.city);
+                    addressBookObj.cityDictionary.TryAdd(contact, contact.City);
                 }
             }
         }
@@ -205,7 +187,7 @@ namespace AddressBookProblem
             {
                 foreach (Contact contact in addressBookObj.addressBook.Values)
                 {
-                    addressBookObj.stateDictionary.Add(contact, contact.state);
+                    addressBookObj.stateDictionary.TryAdd(contact, contact.State);
                 }
             }
         }
@@ -262,7 +244,7 @@ namespace AddressBookProblem
             {
                 foreach (Contact contact in obj.cityDictionary.Keys)
                 {
-                    inverseCityDictionary.TryAdd(contact.city, contact);
+                    inverseCityDictionary.TryAdd(contact.City, contact);
                 }
             }
             List<string> list = inverseCityDictionary.Keys.ToList();
@@ -280,7 +262,7 @@ namespace AddressBookProblem
             {
                 foreach (Contact contact in obj.stateDictionary.Keys)
                 {
-                    inverseStateDictionary.TryAdd(contact.state, contact);
+                    inverseStateDictionary.TryAdd(contact.State, contact);
                 }
             }
             List<string> list = inverseStateDictionary.Keys.ToList();
@@ -290,14 +272,14 @@ namespace AddressBookProblem
                 Console.WriteLine(inverseStateDictionary[state].ToString());
             }
         }
-       public void SortByZip()
+        public void SortByZip()
         {
-            SortedList<long, Contact> sortedbyCity = new SortedList<long, Contact>();
+            SortedList<int, Contact> sortedbyCity = new SortedList<int, Contact>();
             foreach (AddressBook addressBookobj in addressBookDictionary.Values)
             {
                 foreach (Contact contact in addressBookobj.addressBook.Values)
                 {
-                    sortedbyCity.TryAdd(contact.pinCode, contact);
+                    sortedbyCity.TryAdd(contact.Zip, contact);
                 }
             }
             foreach (var item in sortedbyCity)
@@ -307,3 +289,10 @@ namespace AddressBookProblem
         }
     }
 }
+
+
+
+
+
+
+

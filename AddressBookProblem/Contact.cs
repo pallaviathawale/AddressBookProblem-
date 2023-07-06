@@ -8,18 +8,24 @@ namespace AddressBookProblem
 {
     public class Contact
     {
-        public String firstName, lastName, address, city, state, emailId;
-        public long phoneNumber, pinCode;
-        public void SaveContact(string firstName, string lastName, string address, string city, string state, string emailId, long phoneNumber, long pinCode)
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Email { get; set; }
+        public int Zip { get; set; }
+        public long PhoneNumber { get; set; }
+        public Contact(string firstName, string lastName, string address, string city, string state, string email, int zip, long phoneNumber)
         {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.address = address;
-            this.city = city;
-            this.state = state;
-            this.emailId = emailId;
-            this.phoneNumber = phoneNumber;
-            this.pinCode = pinCode;
+            FirstName = firstName;
+            LastName = lastName;
+            Address = address;
+            City = city;
+            State = state;
+            Email = email;
+            Zip = zip;
+            PhoneNumber = phoneNumber;
         }
         public override bool Equals(object obj)
         {
@@ -27,15 +33,15 @@ namespace AddressBookProblem
             if (contact == null)
                 return false;
             else
-                return firstName.Equals(contact.firstName) && lastName.Equals(contact.lastName);
+                return FirstName.Equals(contact.FirstName) && LastName.Equals(contact.LastName);
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(firstName, lastName);
+            return HashCode.Combine(FirstName, LastName);
         }
         public override string ToString()
         {
-            return "First Name :" + firstName + "\nLast Name : " + lastName + "\nCity : " + city + "\nState : " + state + "\nEmail : " + emailId + "\nPhone Number : " + phoneNumber + "\n";
+            return "First Name : " + FirstName + "\nLast Name : " + LastName + "\nCity : " + City + "\nState : " + State + "\nEmail : " + Email + "\nZip : " + Zip + "\nPhone Number : " + PhoneNumber + "\n";
         }
     }
 }
