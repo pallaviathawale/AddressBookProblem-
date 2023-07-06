@@ -8,20 +8,30 @@ namespace AddressBookProblem
 {
     public class Contact
     {
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string Address { get; set; }
-
-        public string City { get; set; }
-
-        public string State { get; set; }
-
-        public string ZipCode { get; set; }
-
-        public string PhoneNo { get; set; }
-
-        public string Email { get; set; }
+        public String firstName, lastName, address, city, state, emailId;
+        public long phoneNumber, pinCode;
+        public void SaveContact(string firstName, string lastName, string address, string city, string state, string emailId, long phoneNumber, long pinCode)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.address = address;
+            this.city = city;
+            this.state = state;
+            this.emailId = emailId;
+            this.phoneNumber = phoneNumber;
+            this.pinCode = pinCode;
+        }
+        public override bool Equals(object obj)
+        {
+            Contact contact = (Contact)obj;
+            if (contact == null)
+                return false;
+            else
+                return firstName.Equals(contact.firstName) && lastName.Equals(contact.lastName);
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(firstName, lastName);
+        }
     }
 }
