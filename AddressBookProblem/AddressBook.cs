@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 namespace AddressBookProblem
 {
 
-    public class AddressBook
+
+    internal class AddressBook
     {
         Dictionary<string, Contact> addressBook = new Dictionary<string, Contact>();
         Dictionary<string, AddressBook> addressBookDictionary = new Dictionary<string, AddressBook>();
+        Dictionary<Contact, string> cityDictionary = new Dictionary<Contact, string>();
+        Dictionary<Contact, string> stateDictionary = new Dictionary<Contact, string>();
         public void AddContact(string firstName, string lastName, string address, string city, string state, string email, long phoneNumber, long pincode, string bookName)
         {
             Contact contact = new Contact();
@@ -127,13 +130,13 @@ namespace AddressBookProblem
         {
             AddressBook addressBook = new AddressBook();
             addressBookDictionary.Add(bookName, addressBook);
-            Console.WriteLine("New AddressBook Created successfully.....");
+            Console.WriteLine("AddressBook Created.");
         }
         public Dictionary<string, AddressBook> GetAddressBook()
         {
             return addressBookDictionary;
         }
-        public List<Contact> GetListOfDictctionaryKeys(string bookName)
+        public List<Contact> GetListOfDictctionaryValues(string bookName)
         {
             List<Contact> book = new List<Contact>();
             foreach (var value in addressBookDictionary[bookName].addressBook.Values)
@@ -142,9 +145,19 @@ namespace AddressBookProblem
             }
             return book;
         }
+
+        public List<Contact> GetListOfDictctionaryKeys(Dictionary<Contact, string> d)
+        {
+            List<Contact> book = new List<Contact>();
+            foreach (var value in d.Keys)
+            {
+                book.Add(value);
+            }
+            return book;
+        }
         public bool CheckDuplicateEntry(Contact c, string bookName)
         {
-            List<Contact> book = GetListOfDictctionaryKeys(bookName);
+            List<Contact> book = GetListOfDictctionaryValues(bookName);
             if (book.Any(b => b.Equals(c)))
             {
                 Console.WriteLine("Name already Exists.");
@@ -152,21 +165,12 @@ namespace AddressBookProblem
             }
             return false;
         }
-
-        public List<Contact> GetListOfDictctionaryKeys2(Dictionary<string, Contact> d)
-        {
-            List<Contact> book = new List<Contact>();
-            foreach (var value in d.Values)
-            {
-                book.Add(value);
-            }
-            return book;
-        }
         public void SearchPersonByCity(string city)
         {
             foreach (AddressBook addressbookobj in addressBookDictionary.Values)
             {
-                List<Contact> contactList = GetListOfDictctionaryKeys2(addressbookobj.addressBook);
+                CreateCityDictionary();
+                List<Contact> contactList = GetListOfDictctionaryKeys(addressbookobj.cityDictionary);
                 foreach (Contact contact in contactList.FindAll(c => c.city.Equals(city)).ToList())
                 {
                     Console.WriteLine(contact.ToString());
@@ -177,7 +181,8 @@ namespace AddressBookProblem
         {
             foreach (AddressBook addressbookobj in addressBookDictionary.Values)
             {
-                List<Contact> contactList = GetListOfDictctionaryKeys2(addressbookobj.addressBook);
+                CreateStateDictionary();
+                List<Contact> contactList = GetListOfDictctionaryKeys(addressbookobj.stateDictionary);
                 foreach (Contact contact in contactList.FindAll(c => c.state.Equals(state)).ToList())
                 {
                     Console.WriteLine(contact.ToString());
@@ -204,9 +209,44 @@ namespace AddressBookProblem
                 }
             }
         }
+        public void DisplayCountByCityandState()
+        {
+            CreateCityDictionary();
+            CreateStateDictionary();
+            Dictionary<string, int> countByCity = new Dictionary<string, int>();
+            Dictionary<string, int> countByState = new Dictionary<string, int>();
+            foreach (var obj in addressBookDictionary.Values)
+            {
+                foreach (var person in obj.cityDictionary)
+                {
+                    countByCity.TryAdd(person.Value, 0);
+                    countByCity[person.Value]++;
+                }
+            }
+            Console.WriteLine("City wise count :");
+            foreach (var person in countByCity)
+            {
+                Console.WriteLine(person.Key + ":" + person.Value);
+            }
+            foreach (var obj in addressBookDictionary.Values)
+            {
+                foreach (var person in obj.stateDictionary)
+                {
+                    countByState.TryAdd(person.Value, 0);
+                    countByState[person.Value]++;
+                }
+            }
+            Console.WriteLine("State wise count :");
+            foreach (var person in countByState)
+            {
+                Console.WriteLine(person.Key + ":" + person.Value);
+            }
+        }
     }
+
+
 }
-}
+
 
 
 
