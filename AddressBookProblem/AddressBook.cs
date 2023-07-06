@@ -184,7 +184,28 @@ namespace AddressBookProblem
                 }
             }
         }
+        public void CreateCityDictionary()
+        {
+            foreach (AddressBook addressBookObj in addressBookDictionary.Values)
+            {
+                foreach (Contact contact in addressBookObj.addressBook.Values)
+                {
+                    addressBookObj.cityDictionary.Add(contact, contact.city);
+                }
+            }
+        }
+        public void CreateStateDictionary()
+        {
+            foreach (AddressBook addressBookObj in addressBookDictionary.Values)
+            {
+                foreach (Contact contact in addressBookObj.addressBook.Values)
+                {
+                    addressBookObj.stateDictionary.Add(contact, contact.state);
+                }
+            }
+        }
     }
+}
 }
 
 

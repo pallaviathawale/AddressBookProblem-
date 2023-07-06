@@ -121,11 +121,12 @@
                         break;
 
                     default:
-                        Console.WriteLine("Entered Wrong invalid option/n");
+                        Console.WriteLine("Entered invalid option. Enter value between 1-9/n");
                         break;
+                  
                 }
             }
-            while (choice != "8");
+            while (choice != "9");
         }
     }
 
