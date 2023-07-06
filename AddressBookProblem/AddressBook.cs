@@ -12,7 +12,6 @@ namespace AddressBookProblem
         List<Contact> addressBookList = new List<Contact>();
 
         public void CreateContact()
-
         {
             Contact contacts = new Contact();
 
@@ -32,7 +31,7 @@ namespace AddressBookProblem
             contacts.City = Console.ReadLine();
             Console.WriteLine("Enter Zip Code : ");
             contacts.ZipCode = Console.ReadLine();
-            Console.WriteLine("Contact created successfully......");
+            Console.WriteLine("Contact created");
         }
         public void AddContact()
         {
@@ -147,7 +146,6 @@ namespace AddressBookProblem
                 }
             }
         }
-
         public void DisplayContact()
         {
             Console.WriteLine("Contact Details");
@@ -162,7 +160,6 @@ namespace AddressBookProblem
                 Console.WriteLine(display.City);
                 Console.WriteLine(display.ZipCode);
             }
-
         }
     }
 }
