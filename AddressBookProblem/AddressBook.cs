@@ -127,7 +127,7 @@ namespace AddressBookProblem
         {
             AddressBook addressBook = new AddressBook();
             addressBookDictionary.Add(bookName, addressBook);
-            Console.WriteLine("AddressBook Created.");
+            Console.WriteLine("New AddressBook Created successfully.....");
         }
         public Dictionary<string, AddressBook> GetAddressBook()
         {
@@ -152,6 +152,42 @@ namespace AddressBookProblem
             }
             return false;
         }
+
+        public List<Contact> GetListOfDictctionaryKeys2(Dictionary<string, Contact> d)
+        {
+            List<Contact> book = new List<Contact>();
+            foreach (var value in d.Values)
+            {
+                book.Add(value);
+            }
+            return book;
+        }
+        public void SearchPersonByCity(string city)
+        {
+            foreach (AddressBook addressbookobj in addressBookDictionary.Values)
+            {
+                List<Contact> contactList = GetListOfDictctionaryKeys2(addressbookobj.addressBook);
+                foreach (Contact contact in contactList.FindAll(c => c.city.Equals(city)).ToList())
+                {
+                    Console.WriteLine(contact.ToString());
+                }
+            }
+        }
+        public void SearchPersonByState(string state)
+        {
+            foreach (AddressBook addressbookobj in addressBookDictionary.Values)
+            {
+                List<Contact> contactList = GetListOfDictctionaryKeys2(addressbookobj.addressBook);
+                foreach (Contact contact in contactList.FindAll(c => c.state.Equals(state)).ToList())
+                {
+                    Console.WriteLine(contact.ToString());
+                }
+            }
+        }
     }
 }
+
+
+
+
 
